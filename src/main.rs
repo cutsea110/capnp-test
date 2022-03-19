@@ -1,5 +1,4 @@
 extern crate capnp_rpc;
-use std::{concat, env, include};
 
 pub mod hello_world_capnp {
     include!(concat!(env!("OUT_DIR"), "/src/hello_world_capnp.rs"));
