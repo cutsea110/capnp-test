@@ -1,4 +1,4 @@
-@0xf6bb5728caebd6c9
+@0xf6bb5728caebd6c9;
 
 interface HelloWorld {
   struct HelloRequest {
