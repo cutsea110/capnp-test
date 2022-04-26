@@ -12,8 +12,7 @@ pub async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let addr = args[2]
-        .to_socket_addrs()
-        .unwrap()
+        .to_socket_addrs()?
         .next()
         .expect("could not parse address");
     let msg = args[3].to_string();
@@ -39,18 +38,9 @@ pub async fn main() -> Result<(), Box<dyn Error>> {
             let mut request = hello_world.say_hello_request();
             request.get().init_request().set_name(&msg);
 
-            let reply = request.send().promise.await.unwrap();
+            let reply = request.send().promise.await?;
 
-            println!(
-                "received: {}",
-                reply
-                    .get()
-                    .unwrap()
-                    .get_reply()
-                    .unwrap()
-                    .get_message()
-                    .unwrap()
-            );
+            println!("received: {}", reply.get()?.get_reply()?.get_message()?);
 
             Ok(())
         })
