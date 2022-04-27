@@ -48,14 +48,14 @@ async fn try_main(addr: SocketAddr) -> Result<(), Box<dyn Error>> {
         let (stream, _) = listener.accept().await?;
         stream.set_nodelay(true)?;
         let (reader, writer) = tokio_util::compat::TokioAsyncReadCompatExt::compat(stream).split();
-        let network = twoparty::VatNetwork::new(
+        let rpc_network = Box::new(twoparty::VatNetwork::new(
             reader,
             writer,
             rpc_twoparty_capnp::Side::Server,
             Default::default(),
-        );
+        ));
 
-        let rpc_system = RpcSystem::new(Box::new(network), Some(hello_world_client.clone().client));
+        let rpc_system = RpcSystem::new(rpc_network, Some(hello_world_client.clone().client));
 
         tokio::task::spawn_local(Box::pin(rpc_system.map(|_| ())));
     }
