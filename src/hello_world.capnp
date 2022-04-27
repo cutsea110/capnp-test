@@ -10,5 +10,4 @@ interface HelloWorld {
   }
 
   sayHello @0 (request: HelloRequest) -> (reply: HelloReply);
-
 }
